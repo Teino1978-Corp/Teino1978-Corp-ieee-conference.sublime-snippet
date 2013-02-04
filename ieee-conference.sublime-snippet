@@ -1,0 +1,184 @@
+<snippet>
+	<content><![CDATA[
+% Don't forget IEEETRAN.cls and IEEETran.bst
+% on your source folder
+\documentclass[10pt,conference]{IEEEtran} 
+
+% AMS Packages
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+% Encoding for english language but support for utf-8 characters
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+% Detect use of pdf
+\usepackage{ifpdf}
+
+% Graphics extensions depending of type of file
+\ifpdf
+  \usepackage[pdftex]{graphicx}
+  \DeclareGraphicsExtensions{.pdf,.png}
+  \usepackage[a4paper,hyperindex=true]{hyperref}
+\else
+  \usepackage{graphicx}
+  \DeclareGraphicsExtensions{.ps,.eps}
+  \usepackage[a4paper,dvipdfm,hyperindex=true]{hyperref}
+\fi
+
+% Default path for images
+\graphicspath{{.}{images/}}
+
+
+% Document information
+\newcommand{\docTitle}{${1:title}}
+\newcommand{\docAuthors}{${2:authors}}
+\newcommand{\docSubject}{\docTitle}
+
+
+\ifpdf
+	% Links in pdf
+	\usepackage{xcolor}
+	\definecolor{linkcol}{rgb}{0,0,0.4} 
+	\definecolor{citecol}{rgb}{0.5,0,0} 
+
+	% Meta-data for the PDF file
+	\hypersetup
+	{
+		bookmarksopen=true,%
+		pdftitle=\docTitle,%
+		pdfauthor=\docAuthors, %author
+		pdfsubject=\docSubject, %subject
+		pdfmenubar=true, %
+		pdfhighlight=/O, %
+		colorlinks=true, %
+		pdfpagemode=, %no page mode
+		pdfpagelayout=SinglePage, %single page layout
+		pdffitwindow=true, %fit to window
+		linkcolor=linkcol, %internal link color
+		citecolor=citecol, %citation link color
+		urlcolor=linkcol %url color
+	}
+\fi
+
+% Theorems and definition. Numeric structure can be changed by removing the option [section]
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{theorem}{Theorem}[section]
+
+
+% Nice strings in math using \s{}
+\newcommand{\s}[1]{\ifmmode{\text{\small`{\texttt{#1}}'}}\else{`{\texttt{#1}}'}\fi}
+
+%Pretty sum
+\newcommand{\ssum}{\displaystyle\sum\limits}
+
+% Inline lists (inparaenum)
+\usepackage{paralist}
+
+% Draft mode
+\usepackage{ifdraft}
+
+% TODO NOTES and QUESTIONS in DRAFT MODE
+\ifdraft{
+    \newcommand{\todo}[1]{\addcontentsline{tdo}{todo}{\protect{#1}}\footnote{\colorbox{yellow}{\textbf{TODO}}: #1}}
+
+	% Same treatment, but for Questions
+    \newcommand{\question}[1]{\addcontentsline{qst}{question}{\protect{#1}}\footnote{\colorbox{green}{\textbf{QUESTION}}: #1}}
+}
+{
+    % Disable everything
+    \newcommand{\todo}[1]{}
+    \newcommand{\question}[1]{}
+}
+
+% Create TODO list
+\makeatletter \newcommand \listoftodos{\section{Todo list} \@starttoc{tdo}}
+\newcommand\l@todo[2]
+    {\par\noindent \textit{#2}, \parbox{\textwidth}{#1}\par} \makeatother
+
+% Create Questions list
+\makeatletter \newcommand \listofquestions{\section{Question list} \@starttoc{qst}}
+\newcommand\l@question[2]
+    {\par\noindent \textit{#2}, \parbox{\textwidth}{#1}\par} \makeatother
+
+
+\ifdraft{}
+{% Disable todo and questions list
+    \renewcommand{\listoftodos}{}
+    \renewcommand{\listofquestions}{}
+}
+
+\title{\docTitle}
+
+% IEEE awful author configuration
+\author{%
+	\IEEEauthorblockN{\docAuthors}
+	\IEEEauthorblockA{${3:authors affiliation}}
+	%\and
+	%\IEEEauthorblockN{Other authors}
+	% \IEEEauthorblockA{Other authors affiliation}
+}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Here is the abstract
+\end{abstract}
+
+\begin{IEEEkeywords}
+Here, some, keywords
+\end{IEEEkeywords}
+
+\IEEEpeerreviewmaketitle
+
+% Sections in another file
+\section{Introduction}
+\input{sections/introduction}
+
+%\section{Related Work}
+%\input{sections/related_work}
+
+% End of sections
+
+
+%Bibliography
+
+% Use this in a .bib file to avoid using dashes when authors are repeated in the references
+%@IEEEtranBSTCTL{IEEEexample:BSTcontrol,
+%  CTLdash_repeated_names = "no"
+%}
+
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,${4:bibliography}} 
+
+% Add list of questions and todos to the appendix
+% NOTE: if other appendices are to be used, remove \appendix below
+\ifdraft{
+    \newpage
+    \appendix
+	% List of questions
+    \listofquestions
+
+	% List of todos
+    \listoftodos
+}
+{}
+
+\end{document}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>ieee</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.tex.latex</scope>
+</snippet>
